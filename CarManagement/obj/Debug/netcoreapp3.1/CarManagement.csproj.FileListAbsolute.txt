@@ -1,0 +1,13 @@
+/Users/manhnguyen/Projects/CarManagement/CarManagement/obj/Debug/netcoreapp3.1/CarManagement.csproj.AssemblyReference.cache
+/Users/manhnguyen/Projects/CarManagement/CarManagement/obj/Debug/netcoreapp3.1/CarManagement.GeneratedMSBuildEditorConfig.editorconfig
+/Users/manhnguyen/Projects/CarManagement/CarManagement/obj/Debug/netcoreapp3.1/CarManagement.AssemblyInfoInputs.cache
+/Users/manhnguyen/Projects/CarManagement/CarManagement/obj/Debug/netcoreapp3.1/CarManagement.AssemblyInfo.cs
+/Users/manhnguyen/Projects/CarManagement/CarManagement/obj/Debug/netcoreapp3.1/CarManagement.csproj.CoreCompileInputs.cache
+/Users/manhnguyen/Projects/CarManagement/CarManagement/bin/Debug/netcoreapp3.1/CarManagement.deps.json
+/Users/manhnguyen/Projects/CarManagement/CarManagement/bin/Debug/netcoreapp3.1/CarManagement.runtimeconfig.json
+/Users/manhnguyen/Projects/CarManagement/CarManagement/bin/Debug/netcoreapp3.1/CarManagement.runtimeconfig.dev.json
+/Users/manhnguyen/Projects/CarManagement/CarManagement/bin/Debug/netcoreapp3.1/CarManagement.dll
+/Users/manhnguyen/Projects/CarManagement/CarManagement/bin/Debug/netcoreapp3.1/CarManagement.pdb
+/Users/manhnguyen/Projects/CarManagement/CarManagement/obj/Debug/netcoreapp3.1/CarManagement.dll
+/Users/manhnguyen/Projects/CarManagement/CarManagement/obj/Debug/netcoreapp3.1/CarManagement.pdb
+/Users/manhnguyen/Projects/CarManagement/CarManagement/obj/Debug/netcoreapp3.1/CarManagement.genruntimeconfig.cache

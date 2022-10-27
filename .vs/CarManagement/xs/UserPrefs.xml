@@ -1,0 +1,36 @@
+﻿<Properties StartupConfiguration="{4FADF43A-D226-46BC-AECF-CC9093F6DF76}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CarManagement/Banking.cs">
+    <Files>
+      <File FileName="CarManagement/Program.cs" Line="56" Column="14" />
+      <File FileName="CarManagement/User.cs" />
+      <File FileName="CarManagement/Payment.cs" />
+      <File FileName="CarManagement/Manager.cs" />
+      <File FileName="CarManagement/Invoice.cs" />
+      <File FileName="CarManagement/IManagerInvoice.cs" />
+      <File FileName="CarManagement/IManagerCar.cs" />
+      <File FileName="CarManagement/DetailInvoice.cs" />
+      <File FileName="CarManagement/Customer.cs" />
+      <File FileName="CarManagement/Cash.cs" />
+      <File FileName="CarManagement/Car.cs" />
+      <File FileName="CarManagement/Banking.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CarManagement" expanded="True">
+            <Node name="CarManagement" expanded="True">
+              <Node name="Banking.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.CarManagement PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
