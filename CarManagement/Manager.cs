@@ -27,27 +27,24 @@ namespace CarManagement
             Address = address;
         }
 
-        public override IDictionary<String, Object> ViewSystem(List<Car> Cars, List<Invoice> Invoices, List<DetailInvoice> DetailInvoices)
+        public override bool ViewSystem()
         {
             bool flag = false;
-            IDictionary<String, Object> dict = new Dictionary<String, Object>();
 
             do
             {
-                Console.WriteLine("1. Manage Car");
-                Console.WriteLine("2. Manage Invoice");
-                Console.WriteLine("3. Quit");
+                PrintMenu("Car Management System", new List<string> {
+                    "Manage Car", "Manage Invoice", "Quit"
+                });
 
                 Console.Write("Your choice: ");
                 int choice = Int32.Parse(Console.ReadLine());
                 switch (choice)
                 {
                     case 1:
-                        Console.WriteLine("1. Add car");
-                        Console.WriteLine("2. Delete car");
-                        Console.WriteLine("3. View car");
-                        Console.WriteLine("4. Update car");
-                        Console.WriteLine("5. Back");
+                        PrintMenu("Car Management System", new List<string> {
+                            "Add car", "Delete car", "View car", "Update car", "Back"
+                        });
 
                         while (!flag)
                         {
@@ -57,40 +54,16 @@ namespace CarManagement
                             switch (choice)
                             {
                                 case 1:
-                                    if (!dict.ContainsKey("ManageCar"))
-                                    {
-                                        dict.Add("ManageCar", this.AddCar(Cars));
-                                    }
-                                    else
-                                    {
-                                        dict["ManageCar"] = this.AddCar(Cars);
-                                    }
-                                    Cars = (List<Car>)dict["ManageCar"];
+                                    this.AddCar();
                                     break;
                                 case 2:
-                                    if (!dict.ContainsKey("ManageCar"))
-                                    {
-                                        dict.Add("ManageCar", this.DeleteCar(Cars));
-                                    }
-                                    else
-                                    {
-                                        dict["ManageCar"] = this.DeleteCar(Cars);
-                                    }
-                                    Cars = (List<Car>)dict["ManageCar"];
+                                    this.DeleteCar();
                                     break;
                                 case 3:
-                                    this.ViewCar(Cars);
+                                    this.ViewCar();
                                     break;
                                 case 4:
-                                    if (!dict.ContainsKey("ManageCar"))
-                                    {
-                                        dict.Add("ManageCar", this.UpdateCar(Cars));
-                                    }
-                                    else
-                                    {
-                                        dict["ManageCar"] = this.UpdateCar(Cars);
-                                    }
-                                    Cars = (List<Car>)dict["ManageCar"];
+                                    this.UpdateCar();
                                     break;
                                 case 5:
                                     flag = true;
@@ -103,10 +76,10 @@ namespace CarManagement
                         flag = false;
                         break;
                     case 2:
-                        Console.WriteLine("1. View invoice");
-                        Console.WriteLine("2. View detail invoice");
-                        Console.WriteLine("3. Update invoice");
-                        Console.WriteLine("4. Back");
+                        PrintMenu("Car Management System", new List<string> {
+                            "View invoice", "View detail invoice", "Update invoice", "Back"
+                        });
+
                         while (!flag)
                         {
                             Console.Write("Your choice: ");
@@ -115,14 +88,13 @@ namespace CarManagement
                             switch (choice)
                             {
                                 case 1:
-                                    this.ViewInvoice(Invoices);
+                                    this.ViewInvoice();
                                     break;
                                 case 2:
-                                    this.ViewDetailInvoice(DetailInvoices);
+                                    this.ViewDetailInvoice();
                                     break;
                                 case 3:
-                                    dict.Add("ManageInvoice", this.UpdateInvoice(Invoices));
-                                    Invoices = (List<Invoice>)dict["ManageInvoice"];
+                                    this.UpdateInvoice();
                                     break;
                                 case 4:
                                     flag = true;
@@ -135,29 +107,27 @@ namespace CarManagement
                         flag = false;
                         break;
                     case 3:
-                        dict.Add("Quit", true);
-                        flag = true;
-                        break;
+                        return true;
                     default:
                         Console.WriteLine("Your choice must be in range [1, 2]");
                         break;
                 }
             } while (!flag);
 
-            return dict;
+            return true;
         }
 
-        public List<Car> AddCar(List<Car> Cars)
+        public void AddCar()
         {
             Car car;
 
-            if (Cars.Count == 0)
+            if (Program.Cars.Count == 0)
             {
                 car = new Car(1);
             }
             else
             {
-                car = new Car(Cars[Cars.Count - 1].carID + 1);
+                car = new Car(Program.Cars[Program.Cars.Count - 1].carID + 1);
             }
 
             Console.Write("Enter car name: ");
@@ -169,118 +139,92 @@ namespace CarManagement
             Console.Write("Enter car quantity: ");
             car.quantity = Int32.Parse(Console.ReadLine());
 
-            Cars.Add(car);
-
-            return Cars;
+            Program.Cars.Add(car);
         }
 
-        public List<Car> DeleteCar(List<Car> Cars)
+
+        public void DeleteCar()
         {
             Console.Write("Enter carId to delete: ");
 
             int carID = Int32.Parse(Console.ReadLine());
 
-            if (Cars.FirstOrDefault(c => c.carID == carID) == null)
+            if (Program.Cars.FirstOrDefault(c => c.carID == carID) == null)
             {
                 Console.WriteLine("Car is not existed");
-                return Cars;
+                return;
             }
 
-            return Cars.FindAll(c => c.carID != carID);
+            Program.Cars.Remove(Program.Cars.FirstOrDefault(c => c.carID == carID));
         }
 
-        public List<Car> UpdateCar(List<Car> Cars)
+        public void UpdateCar()
         {
             Console.Write("Enter carId to update: ");
 
             int carID = Int32.Parse(Console.ReadLine());
 
-            if (Cars.FirstOrDefault(c => c.carID == carID) == null)
+            if (Program.Cars.FirstOrDefault(c => c.carID == carID) == null)
             {
                 Console.WriteLine("Car is not existed");
-                return Cars;
+                return;
             }
 
-            int index = Cars.FindIndex(c => c.carID == carID);
+            int index = Program.Cars.FindIndex(c => c.carID == carID);
 
             Console.Write("Enter car name: ");
-            Cars[index].carName = Console.ReadLine();
+            Program.Cars[index].carName = Console.ReadLine();
 
             Console.Write("Enter car price: ");
-            Cars[index].carPrice = float.Parse(Console.ReadLine());
+            Program.Cars[index].carPrice = float.Parse(Console.ReadLine());
 
             Console.Write("Enter car quantity: ");
-            Cars[index].quantity = Int32.Parse(Console.ReadLine());
-
-            return Cars;
+            Program.Cars[index].quantity = Int32.Parse(Console.ReadLine());
         }
 
-        public List<Invoice> UpdateInvoice(List<Invoice> invoice)
+        public void UpdateInvoice()
         {
             Console.Write("Enter invoiceId to update: ");
 
             int invoiceId = Int32.Parse(Console.ReadLine());
 
-            if (invoice.FirstOrDefault(i => i.InvoiceID == invoiceId) == null)
+            if (Program.Invoices.FirstOrDefault(i => i.InvoiceID == invoiceId) == null)
             {
                 Console.WriteLine("Invoice is not existed");
-                return null;
+                return;
             }
 
-            int index = invoice.FindIndex(i => i.InvoiceID == invoiceId);
+            int index = Program.Invoices.FindIndex(i => i.InvoiceID == invoiceId);
 
             Console.Write("Enter time: ");
-            invoice[index].Time = Console.ReadLine();
+            Program.Invoices[index].Time = Console.ReadLine();
 
-            Console.Write("Enter car price: ");
-            invoice[index].Status = Console.ReadLine();
-
-            return invoice;
+            Console.Write("Enter status: ");
+            Program.Invoices[index].Status = Console.ReadLine();
         }
 
-        public void ViewCar(List<Car> Cars)
+        public void ViewCar()
         {
-            Console.Write("Enter carId to view: ");
-
-            int carID = Int32.Parse(Console.ReadLine());
-
-            if (Cars.FirstOrDefault(c => c.carID == carID) == null)
+            foreach (var car in Program.Cars)
             {
-                Console.WriteLine("Car is not existed");
-                return;
+                Console.WriteLine(car.ToString());
             }
-
-            Console.WriteLine(Cars.FirstOrDefault(c => c.carID == carID).ToString());
         }
 
-        public void ViewDetailInvoice(List<DetailInvoice> DetailInvoice)
+        public void ViewDetailInvoice()
         {
-            Console.Write("Enter detailInvoiceId to view: ");
-
-            int detailInvoiceId = Int32.Parse(Console.ReadLine());
-
-            if (DetailInvoice.FirstOrDefault(di => di.DetailInvoiceID == detailInvoiceId) == null)
+            foreach (var detailInvoice in Program.DetailInvoices)
             {
-                Console.WriteLine("DetailInvoice is not existed");
-                return;
+                Console.WriteLine(detailInvoice.ToString());
             }
-
-            Console.WriteLine(DetailInvoice.FirstOrDefault(di => di.DetailInvoiceID == detailInvoiceId).ToString());
         }
 
-        public void ViewInvoice(List<Invoice> invoice)
+        public void ViewInvoice()
         {
-            Console.Write("Enter invoiceId to view: ");
-
-            int invoiceId = Int32.Parse(Console.ReadLine());
-
-            if (invoice.FirstOrDefault(i => i.InvoiceID == invoiceId) == null)
+            foreach (var i in Program.Invoices)
             {
-                Console.WriteLine("Invoice is not existed");
-                return;
+                Console.WriteLine(i.ToString());
             }
-
-            Console.WriteLine(invoice.FirstOrDefault(i => i.InvoiceID == invoiceId).ToString());
         }
 
         public override void register()
@@ -291,6 +235,23 @@ namespace CarManagement
             this.Email = Console.ReadLine();
             Console.Write("Enter your address: ");
             this.Address = Console.ReadLine();
+        }
+
+        private static void PrintMenu(String header, List<string> choices)
+        {
+            Console.Write(new String(' ', 10));
+            Console.Write(new string('-', 23));
+            Console.Write(String.Format("{0,21}", header));
+            Console.Write(new string('-', 23));
+            Console.WriteLine();
+            foreach (var c in choices.Select((value, index) => new { index, value }))
+            {
+                Console.Write(new String(' ', 10));
+                Console.Write(String.Format("{0,-31}", $"| {c.index + 1}. {c.value}"));
+                Console.WriteLine(String.Format("{0,34} |", " "));
+            }
+            Console.Write(new String(' ', 10));
+            Console.WriteLine(new String('-', 67));
         }
     }
 }

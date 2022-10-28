@@ -8,9 +8,9 @@ namespace CarManagement
 {
     public interface IManagerCar
     {
-        List<Car> AddCar(List<Car> Cars);
-        List<Car> DeleteCar(List<Car> Cars);
-        void ViewCar(List<Car> Cars);
-        List<Car> UpdateCar(List<Car> Cars);
+        void AddCar();
+        void DeleteCar();
+        void ViewCar();
+        void UpdateCar();
     }
 }

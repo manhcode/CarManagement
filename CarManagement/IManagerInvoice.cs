@@ -8,8 +8,8 @@ namespace CarManagement
 {
     public interface IManagerInvoice
     {
-        void ViewInvoice(List<Invoice> invoice);
-        void ViewDetailInvoice(List<DetailInvoice> DetailInvoice);
-        List<Invoice> UpdateInvoice(List<Invoice> invoice);
+        void ViewInvoice();
+        void ViewDetailInvoice();
+        void UpdateInvoice();
     }
 }

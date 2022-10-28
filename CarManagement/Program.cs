@@ -1,6 +1,7 @@
 ﻿using CarManagement;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CarManagement
 {
@@ -13,29 +14,89 @@ namespace CarManagement
         private static List<DetailInvoice> detailInvoices = new List<DetailInvoice>();
         private static List<Payment> payments = new List<Payment>();
 
+        public static List<User> Users
+        {
+            get { return users; }
+            set
+            {
+                users = Users;
+            }
+        }
+
+        public static User CurrentUser
+        {
+            get { return currentUser; }
+            set
+            {
+                currentUser = CurrentUser;
+            }
+        }
+
+        public static List<Car> Cars
+        {
+            get { return cars; }
+            set
+            {
+                cars = Cars;
+            }
+        }
+
+        public static List<Invoice> Invoices
+        {
+            get { return invoices; }
+            set
+            {
+                invoices = Invoices;
+            }
+        }
+
+        public static List<DetailInvoice> DetailInvoices
+        {
+            get { return detailInvoices; }
+            set
+            {
+                detailInvoices = DetailInvoices;
+            }
+        }
+
+        public static List<Payment> Payments
+        {
+            get { return payments; }
+            set
+            {
+                payments = Payments;
+            }
+        }
+
+        private Program()
+        {
+        }
+
         static void Main(string[] args)
         {
-            PrintHeader("Car Management System");
             ViewSystem();
         }
 
-        private static void PrintHeader(String header)
+        private static void PrintMenu(String header, List<string> choices)
         {
-            for (int i = 0; i < 15; i++)
-            {
-                Console.Write("-");
-            }
-            Console.Write(header);
-            for (int i = 0; i < 15; i++)
-            {
-                Console.Write("-");
-            }
+            Console.Write(new String(' ', 10));
+            Console.Write(new string('-', 23));
+            Console.Write(String.Format("{0,21}", header));
+            Console.Write(new string('-', 23));
             Console.WriteLine();
+            foreach (var c in choices.Select((value, index) => new { index, value }))
+            {
+                Console.Write(new String(' ', 10));
+                Console.Write(String.Format("{0,-31}", $"| {c.index + 1}. {c.value}"));
+                Console.WriteLine(String.Format("{0,34} |", " "));
+            }
+            Console.Write(new String(' ', 10));
+            Console.WriteLine(new String('-', 67));
         }
 
         private static int GetLastUserID()
         {
-            if (users.Count == 0)
+            if (Program.users.Count == 0)
                 return 0;
             return users[users.Count - 1].GetUserId();
         }
@@ -68,9 +129,7 @@ namespace CarManagement
 
             do
             {
-                Console.WriteLine("1. Register");
-                Console.WriteLine("2. Login");
-                Console.WriteLine("3. Quit");
+                PrintMenu("Car Management System", new List<string> { "Register", "Login", "Quit" });
 
                 do
                 {
@@ -84,7 +143,7 @@ namespace CarManagement
                             flag = false;
                             break;
                         case 2:
-                            User us = currentUser.logIn(users);
+                            User us = currentUser.logIn();
 
                             if (us == null)
                             {
@@ -110,56 +169,7 @@ namespace CarManagement
 
                 do
                 {
-                    IDictionary<String, Object> dict;
-
-                    if (currentUser.GetType().Name.CompareTo("Manager") == 0)
-                    {
-                        dict = currentUser.ViewSystem(cars, invoices, detailInvoices);
-
-                        if (dict.ContainsKey("ManageCar"))
-                        {
-                            cars = (List<Car>)dict["ManageCar"];
-                        }
-
-                        if (dict.ContainsKey("ManageInvoice"))
-                        {
-                            invoices = (List<Invoice>)dict["ManageInvoice"];
-                        }
-
-                        if (dict.ContainsKey("Quit"))
-                        {
-                            flag = false;
-                        }
-                    }
-                    else if (currentUser.GetType().Name.CompareTo("Customer") == 0)
-                    {
-                        dict = currentUser.ViewSystem(cars, invoices, detailInvoices, payments);
-
-                        if (dict.ContainsKey("Cars"))
-                        {
-                            cars = (List<Car>)dict["Cars"];
-                        }
-
-                        if (dict.ContainsKey("Invoices"))
-                        {
-                            invoices = (List<Invoice>)dict["Invoices"];
-                        }
-
-                        if (dict.ContainsKey("DetailInvoices"))
-                        {
-                            detailInvoices = (List<DetailInvoice>)dict["DetailInvoices"];
-                        }
-
-                        if (dict.ContainsKey("Payments"))
-                        {
-                            payments = (List<Payment>)dict["Payments"];
-                        }
-
-                        if (dict.ContainsKey("Quit"))
-                        {
-                            flag = false;
-                        }
-                    }
+                    flag = !currentUser.ViewSystem();
                 } while (flag);
 
                 flag = true;

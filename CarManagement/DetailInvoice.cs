@@ -40,8 +40,7 @@ namespace CarManagement
         public override string ToString()
         {
             return "{" +
-                "DetailInvoiceID=" + DetailInvoiceID +
-                ", Car={carID=" + Car.carID + ", carName=" + Car.carName + ", carPrice=" + Car.carPrice + "}" +
+                "Car={carID=" + Car.carID + ", carName=" + Car.carName + ", carPrice=" + Car.carPrice + "}" +
                 ", quantity=" + quantity +
                 '}';
         }

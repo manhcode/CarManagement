@@ -57,24 +57,21 @@ namespace CarManagement
             this.password = Console.ReadLine();
         }
 
-        public User logIn(List<User> users)
+        public User logIn()
         {
             Console.Write("Enter your name: ");
             string name = Console.ReadLine();
             Console.Write("Enter your password: ");
             string password = Console.ReadLine();
 
-            return users.FirstOrDefault(u => u.name.CompareTo(name) == 0 && u.password.CompareTo(password) == 0);
+            return Program.Users.FirstOrDefault(u => u.name.CompareTo(name) == 0 && u.password.CompareTo(password) == 0);
         }
 
-        public virtual IDictionary<String, Object> ViewSystem(List<Car> Cars, List<Invoice> Invoices, List<DetailInvoice> DetailInvoices)
+        public virtual bool ViewSystem()
         {
-            return new Dictionary<String, Object>();
+            return false;
         }
 
-        public virtual IDictionary<String, Object> ViewSystem(List<Car> Cars, List<Invoice> Invoices, List<DetailInvoice> DetailInvoices, List<Payment> Payments)
-        {
-            return new Dictionary<String, Object>();
-        }
+
     }
 }

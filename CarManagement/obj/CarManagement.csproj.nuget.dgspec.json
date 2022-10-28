@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/manhnguyen/Projects/CarManagement/CarManagement/CarManagement.csproj": {}
+    "/Users/manhnguyen/Downloads/CarManagement 2/CarManagement/CarManagement.csproj": {}
   },
   "projects": {
-    "/Users/manhnguyen/Projects/CarManagement/CarManagement/CarManagement.csproj": {
+    "/Users/manhnguyen/Downloads/CarManagement 2/CarManagement/CarManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/manhnguyen/Projects/CarManagement/CarManagement/CarManagement.csproj",
+        "projectUniqueName": "/Users/manhnguyen/Downloads/CarManagement 2/CarManagement/CarManagement.csproj",
         "projectName": "CarManagement",
-        "projectPath": "/Users/manhnguyen/Projects/CarManagement/CarManagement/CarManagement.csproj",
+        "projectPath": "/Users/manhnguyen/Downloads/CarManagement 2/CarManagement/CarManagement.csproj",
         "packagesPath": "/Users/manhnguyen/.nuget/packages/",
-        "outputPath": "/Users/manhnguyen/Projects/CarManagement/CarManagement/obj/",
+        "outputPath": "/Users/manhnguyen/Downloads/CarManagement 2/CarManagement/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/manhnguyen/.config/NuGet/NuGet.Config"

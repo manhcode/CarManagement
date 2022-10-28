@@ -9,11 +9,11 @@ namespace CarManagement
 
     public class Customer : User
     {
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public string Address { get; set; }
-        public List<DetailInvoice> Cart { get; set; }
-        public List<Invoice> Invoice { get; set; }
+        private string Phone { get; set; }
+        private string Email { get; set; }
+        private string Address { get; set; }
+        private List<DetailInvoice> Cart { get; set; }
+        private List<Invoice> Invoice { get; set; }
 
         public Customer(int userID, string name, string password) : base()
         {
@@ -32,17 +32,13 @@ namespace CarManagement
             this.Invoice = new List<Invoice>();
         }
 
-        public override IDictionary<String, Object> ViewSystem(List<Car> Cars, List<Invoice> Invoices, List<DetailInvoice> DetailInvoices, List<Payment> Payments)
+        public override bool ViewSystem()
         {
             bool flag = false;
-            IDictionary<String, Object> dict = new Dictionary<String, Object>();
 
-            Console.WriteLine("1. View Car");
-            Console.WriteLine("2. View Cart");
-            Console.WriteLine("3. Add car to Cart");
-            Console.WriteLine("4. Delete car from Cart");
-            Console.WriteLine("5. Discharge");
-            Console.WriteLine("6. Quit");
+            PrintMenu("Car Management System", new List<string> {
+                "View Car", "View Cart", "Add car to Cart", "Delete car from Cart", "Discharge", "Quit"
+            });
 
             while (!flag)
             {
@@ -51,49 +47,39 @@ namespace CarManagement
                 switch (choice)
                 {
                     case 1:
-                        this.ViewCar(Cars);
+                        this.ViewCar();
                         break;
                     case 2:
                         this.ViewCart();
                         break;
                     case 3:
-                        this.AddCarToCart(Cars, DetailInvoices);
+                        this.AddCarToCart();
                         break;
                     case 4:
                         this.DeleteCarFromCart();
                         break;
                     case 5:
-                        dict = this.Discharge(Cars, Invoices, DetailInvoices, Payments);
+                        this.Discharge();
                         break;
                     case 6:
-                        flag = true;
-                        dict.Add("Quit", true);
-                        break;
+                        return true;
                     default:
                         Console.WriteLine("Your choice must be in range [1, 4]");
                         break;
                 }
             }
-
-            return dict;
+            return true;
         }
 
-        public void ViewCar(List<Car> Cars)
+        public void ViewCar()
         {
-            Console.Write("Enter carId to view: ");
-
-            int carID = Int32.Parse(Console.ReadLine());
-
-            if (Cars.FirstOrDefault(c => c.carID == carID) == null)
+            foreach (var car in Program.Cars)
             {
-                Console.WriteLine("Car is not existed");
-                return;
+                Console.WriteLine(car.ToString());
             }
-
-            Console.WriteLine(Cars.FirstOrDefault(c => c.carID == carID).ToString());
         }
 
-        public void AddCarToCart(List<Car> Cars, List<DetailInvoice> DetailInvoices)
+        public void AddCarToCart()
         {
             bool flag = true;
 
@@ -102,7 +88,7 @@ namespace CarManagement
                 Car car = new Car();
                 do
                 {
-                    car = FindCar(Cars);
+                    car = FindCar();
                     if (car != null)
                     {
                         flag = false;
@@ -120,13 +106,13 @@ namespace CarManagement
 
                 DetailInvoice detailInvoice;
 
-                if (DetailInvoices.Count == 0)
+                if (Program.DetailInvoices.Count == 0)
                 {
                     detailInvoice = new DetailInvoice(1);
                 }
                 else
                 {
-                    detailInvoice = new DetailInvoice(DetailInvoices.Count + 1);
+                    detailInvoice = new DetailInvoice(Program.DetailInvoices.Count + 1);
                 }
 
                 detailInvoice.Car = car;
@@ -174,24 +160,23 @@ namespace CarManagement
             }
         }
 
-        public Car FindCar(List<Car> Cars)
+        public Car FindCar()
         {
             Console.Write("Enter carId to add to cart: ");
 
             int carID = Int32.Parse(Console.ReadLine());
 
-            if (Cars.FirstOrDefault(c => c.carID == carID) == null)
+            if (Program.Cars.FirstOrDefault(c => c.carID == carID) == null)
             {
                 Console.WriteLine("Car is not existed");
                 return null;
             }
 
-            return Cars.FirstOrDefault(c => c.carID == carID);
+            return Program.Cars.FirstOrDefault(c => c.carID == carID);
         }
 
-        public IDictionary<String, Object> Discharge(List<Car> Cars, List<Invoice> Invoices, List<DetailInvoice> DetailInvoices, List<Payment> Payments)
+        public void Discharge()
         {
-            IDictionary<String, Object> dict = new Dictionary<String, Object>();
             bool flag = true;
             Payment payment;
 
@@ -206,16 +191,16 @@ namespace CarManagement
 
                 float price = this.Cart.Sum(c => c.Car.carPrice * c.quantity);
 
-                if (Payments.Count == 0)
+                if (Program.Payments.Count == 0)
                 {
                     payment = new Payment(1, price, "Completed");
                 }
                 else
                 {
-                    payment = new Payment(Payments.Count + 1, price, "Completed");
+                    payment = new Payment(Program.Payments.Count + 1, price, "Completed");
                 }
 
-                Payments.Add(payment);
+                Program.Payments.Add(payment);
 
                 switch (ch)
                 {
@@ -235,46 +220,39 @@ namespace CarManagement
                 }
             } while (flag);
 
-            if (Invoices.Count == 0)
+            if (Program.Invoices.Count == 0)
             {
                 this.Invoice.Add(new Invoice(1, this.userID.ToString(), DateTime.Now.ToString(),
                         "Pending", payment, this.Cart));
             }
             else
             {
-                this.Invoice.Add(new Invoice(Invoices.Count + 1, this.userID.ToString(), DateTime.Now.ToString(),
+                this.Invoice.Add(new Invoice(Program.Invoices.Count + 1, this.userID.ToString(), DateTime.Now.ToString(),
                         "Pending", payment, this.Cart));
             }
 
-            Invoices.Add(this.Invoice[Invoice.Count - 1]);
+            Program.Invoices.Add(this.Invoice[Invoice.Count - 1]);
 
             foreach (var c in this.Cart)
             {
-                if (DetailInvoices.Count == 0)
+                if (Program.DetailInvoices.Count == 0)
                 {
                     c.DetailInvoiceID = 1;
                 }
                 else
                 {
-                    c.DetailInvoiceID = DetailInvoices.Count + 1;
+                    c.DetailInvoiceID = Program.DetailInvoices.Count + 1;
                 }
 
-                DetailInvoices.Add(c);
+                Program.DetailInvoices.Add(c);
             }
 
             foreach (var cart in this.Cart)
             {
-                Cars[Cars.FindIndex(c => c.carID == cart.Car.carID)].quantity -= cart.quantity;
+                Program.Cars[Program.Cars.FindIndex(c => c.carID == cart.Car.carID)].quantity -= cart.quantity;
             }
 
-            dict.Add("Cars", Cars);
-            dict.Add("Invoices", Invoices);
-            dict.Add("DetailInvoices", DetailInvoices);
-            dict.Add("Payments", Payments);
-
             this.Cart = new List<DetailInvoice>();
-
-            return dict;
         }
 
         public override void register()
@@ -285,6 +263,23 @@ namespace CarManagement
             this.Email = Console.ReadLine();
             Console.Write("Enter your address: ");
             this.Address = Console.ReadLine();
+        }
+
+        private static void PrintMenu(String header, List<string> choices)
+        {
+            Console.Write(new String(' ', 10));
+            Console.Write(new string('-', 23));
+            Console.Write(String.Format("{0,21}", header));
+            Console.Write(new string('-', 23));
+            Console.WriteLine();
+            foreach (var c in choices.Select((value, index) => new { index, value }))
+            {
+                Console.Write(new String(' ', 10));
+                Console.Write(String.Format("{0,-31}", $"| {c.index + 1}. {c.value}"));
+                Console.WriteLine(String.Format("{0,34} |", " "));
+            }
+            Console.Write(new String(' ', 10));
+            Console.WriteLine(new String('-', 67));
         }
     }
 }
